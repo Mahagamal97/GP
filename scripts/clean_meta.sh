@@ -1,16 +1,18 @@
 #!/bin/bash
 
-if [[ -n clean.csv ]];
+cd ../
+
+if [[ -n clean_meta.csv ]];
 then
-	rm clean.csv
+	rm clean_meta.csv
 fi
 
-cd ../clean_train
+cd clean
 
 ls | while read files;
 do
 	if [ ${files: -4} == ".wav" ];
 	then
-		echo "$files" >> ../clean.csv
+		echo "$files" >> ../clean_meta.csv
 	fi
 done
