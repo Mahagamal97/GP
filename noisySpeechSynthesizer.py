@@ -10,9 +10,6 @@ import os
 import shutil
 import scipy.io.wavfile
 
-import warnings
-warnings.filterwarnings('ignore')
-
 noise_df = pd.read_csv('noise_meta.csv', index_col = 'fileName')
 clean_df = pd.read_csv('clean_meta.csv', names=["fileName"])
 
@@ -75,10 +72,6 @@ def SNRmixer(clean_org, noise_org, snr_dB):
     noisyspeech = clean + noisenewlevel
     return noisyspeech
 
-
-#shuffledNoise = shuffle(noise_df)
-#simpleNoise = shuffledNoise.iloc[ :20]
-
 dirpath = 'noisySpeech'
 
 def noisySpeechGenerator(clean_df,noise_df,numNoisySpeech, numAddedNoises, snr):
@@ -90,8 +83,7 @@ def noisySpeechGenerator(clean_df,noise_df,numNoisySpeech, numAddedNoises, snr):
     #simpleClean.to_csv('simpleClean.csv')
     
     simpleNoise = pd.read_csv('simpleNoise.csv', index_col = 'fileName')
-    simpleNoise.at[:,'length'] = 10.000125
-    #simpleNoiseCut = simpleNoise.loc[:,simpleNoise.columns != 'fileStarter'] 
+    simpleNoise.at[:,'length'] = 10.000125 
     pesq_csv = simpleClean
     
     fileCount=1
