@@ -6,7 +6,7 @@ if [[ -n clean_meta.csv ]];
 then
 	rm clean_meta.csv
 fi
-
+echo "fileName">>clean_meta.csv 
 cd clean
 
 ls | while read files;
