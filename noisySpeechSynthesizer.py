@@ -21,20 +21,20 @@ def checkdir(savedir):
         shutil.rmtree(savedir)   # remove a non empty directory
         os.makedirs(savedir)
 
-def adjustLengths(clean_org,noise_org):
+def adjustLengths(clean_org,noise_org): # adjust lengths of clean and noise signals to be the same length so we can add them
     clean_len = len(clean_org)
     noise_len = len(noise_org)
     
-    mxLength = max(clean_len, noise_len)
+    mxLength = max(clean_len, noise_len) # get the max length of noise and clean signals
     clean = np.empty(mxLength)
     noise = np.empty(mxLength)
     
-    if clean_len < noise_len:
-        rep_time = int(np.floor(noise_len / clean_len))
-        left_len = noise_len - clean_len * rep_time
-        temp_data = np.tile(clean_org, [1, rep_time])
+    if clean_len < noise_len: # if noise signal > clean signal
+        rep_time = int(np.floor(noise_len / clean_len)) # get the required reptition number for the signal
+        left_len = noise_len - clean_len * rep_time     # get the rest decimal part because we used floor to calculate the repition number
+        temp_data = np.tile(clean_org, [1, rep_time]) # repeat the clean signal with reptition number
         temp_data.shape = (temp_data.shape[1], )
-        clean = np.hstack((temp_data, clean_org[:left_len]))
+        clean = np.hstack((temp_data, clean_org[:left_len])) # add the repeated clean signal with the rest decimal part as samples to get the same length as noise signal 
         noise = np.array(noise_org)
 #         print("cleanShapeAdjusted in if=",clean.shape)
 #         print("noiseShapeAdjusted in if=",noise.shape)
@@ -52,7 +52,7 @@ def adjustLengths(clean_org,noise_org):
     return clean, noise
 
 
-def SNRmixer(clean_org, noise_org, snr_dB):
+def SNRmixer(clean_org, noise_org, snr_dB): # adjust SNRs
     
     clean, noise = adjustLengths(clean_org, noise_org)
     # Normalizing to -25 dB FS
@@ -74,7 +74,11 @@ def SNRmixer(clean_org, noise_org, snr_dB):
 
 dirpath = 'noisySpeech'
 
-def noisySpeechGenerator(clean_df,noise_df,numNoisySpeech, numAddedNoises, snr):
+def noisySpeechGenerator(clean_df,noise_df,numNoisySpeech, numAddedNoises, snr): # generate noisy signals
+    # clean_df = The clean dataframe
+    # noise_df = The noise datafram
+    # numNoisySpeech = the number of noisy signal you want to get ( ex. 5 means you will get 5 files with mixed clean and noise)
+    # numAddedNoises = the number of noises you want to added for one clean signal ( let it 1 for now)
     checkdir(os.path.join(dirpath)) # check if output directory exists, if not create one
 
     shuffledClean = shuffle(clean_df)
