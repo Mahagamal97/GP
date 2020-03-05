@@ -8,7 +8,7 @@ import os
 from tqdm import tqdm
 from pydub import AudioSegment
 
-root_path = '******' # Write your source path intead of *****
+root_path = '******' # Write your source path instead of *****
 src_path=os.listdir(root_path)
 fileNumber=1 # Just a counter for different names
 
