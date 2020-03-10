@@ -1,1 +1,1 @@
-# GP
+# SMART-HA-GP
